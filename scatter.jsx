@@ -25,8 +25,8 @@ module.exports = createReactClass({
     width: 'auto'
   },
   radiusCompensator: 5,
-  getInitialState() {
-    return { 
+  getInitialState () {
+    return {
       style: {
         width: this.props.width,
         height: this.props.height,
@@ -34,7 +34,7 @@ module.exports = createReactClass({
         color: 'rgba(255, 255, 255, 0.7)',
         background: '#222',
         border: '1px solid black',
-        boxShadow: '0px 3px 8px rgba(0, 0, 0, 0.5)'      
+        boxShadow: '0px 3px 8px rgba(0, 0, 0, 0.5)'
       },
       currentPoint: {
         species: '',
@@ -56,7 +56,7 @@ module.exports = createReactClass({
     })
   },
   toggleLegend (data = null, index = null) {
-    if(data) {
+    if (data) {
       data = Object.assign({ index: index }, data)
       this.setState({currentPoint: data})
     } else {
@@ -83,7 +83,7 @@ module.exports = createReactClass({
     return (
       <div>
         {props.map(prop => {
-          return  this.state.currentPoint[prop] 
+          return this.state.currentPoint[prop]
           ? (<div key={prop}><span style={{minWidth: '7em', display: 'inline-block'}}>{prop}: </span>{this.state.currentPoint[prop]}</div>)
           : null
         })}
@@ -94,23 +94,23 @@ module.exports = createReactClass({
     let minX = this.state.data.reduce((minX, p) => Math.min(minX, p.petalWidth), this.state.data[0].petalWidth)
     let maxX = this.state.data.reduce((maxX, p) => Math.max(maxX, p.petalWidth), this.state.data[0].petalWidth)
     let minY = this.state.data.reduce((minY, p) => Math.min(minY, p.petalLength), this.state.data[0].petalLength)
-    let maxY = this.state.data.reduce((maxY, p) => Math.max(maxY, p.petalLength), this.state.data[0].petalLength)    
+    let maxY = this.state.data.reduce((maxY, p) => Math.max(maxY, p.petalLength), this.state.data[0].petalLength)
     return (
       <div>
         {this.state.data.map((item, i) => {
           let x = linmap(minX, maxX, this.radiusCompensator, this.props.width - this.radiusCompensator, item.petalWidth)
           let y = this.props.height - linmap(minY, maxY, this.radiusCompensator, this.props.height - this.radiusCompensator, item.petalLength)
           let style = Object.assign(
-            {}, 
-            this.pointStyle, 
+            {},
+            this.pointStyle,
             { left: `${x}px`, top: `${y}px` },
             { background: this.typeColors[item.species] }
           )
-          return (<div 
-            onMouseEnter={this.mouseEnterHandler} 
+          return (<div
+            onMouseEnter={this.mouseEnterHandler}
             onMouseLeave={this.mouseLeaveHandler}
             data-index={i}
-            key={i} 
+            key={i}
             style={style} />)
         })}
       </div>
